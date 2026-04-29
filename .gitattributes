@@ -1,0 +1,20 @@
+# 自动检测文本文件的换行符
+* text=auto
+
+# 确保特定文件使用 LF 换行符
+*.py text eol=lf
+*.md text eol=lf
+*.txt text eol=lf
+*.json text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+
+# 确保 shell 脚本使用 LF
+*.sh text eol=lf
+
+# 图片等二进制文件不处理
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
