@@ -41,7 +41,7 @@ RecipeRAG 是一个基于 **检索增强生成（RAG）** 技术的智能食谱�
 
 ### 系统架构图
 
-```
+```mermaid
 flowchart TD
     %% 系统初始化
     START[🚀 系统启动] --> CONFIG[⚙️ 加载配置<br/>RAGConfig]
@@ -159,7 +159,6 @@ flowchart TD
     class DataPrep,IndexBuild module
     class BUILD_NEW,READY,DataPrepForRetrieval startup
     class CHUNKS dataflow
-
 ```
 
 ## 🚀 快速开始
