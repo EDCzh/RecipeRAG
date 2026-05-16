@@ -43,6 +43,28 @@ RecipeRAG 是一个基于 **检索增强生成（RAG）** 技术的智能食谱�
 
 ```mermaid
 flowchart TD
+    %% 配置管理子流程
+    subgraph ConfigMgmt [⚙️ 配置管理]
+        CFG1[🎛️ 默认配置<br/>DEFAULT_CONFIG]
+        CFG2[🔧 自定义配置<br/>RAGConfig]
+        CFG3[🌐 环境变量<br/>HF_ENDPOINT]
+    end
+    
+    %% 数据准备子流程
+    subgraph DataPrep [📚 数据准备模块]
+        R[📁 加载Markdown文件<br/>config.data_path] --> S[🔧 元数据增强]
+        S --> T[✂️ 按标题分块]
+        T --> U[🏷️ 父子关系建立]
+        U --> CHUNKS[📦 输出文本块chunks]
+    end
+    
+    %% 索引构建子流程  
+    subgraph IndexBuild [🔍 索引构建模块]
+        CHUNKS --> V[🤖 BGE嵌入模型<br/>config.embedding_model]
+        V --> W[📊 FAISS向量索引]
+        W --> X[💾 索引持久化<br/>config.index_save_path]
+    end
+    
     %% 系统初始化
     START[🚀 系统启动] --> CONFIG[⚙️ 加载配置<br/>RAGConfig]
     CONFIG --> INIT[🔧 初始化模块]
@@ -103,28 +125,6 @@ flowchart TD
     N --> Q[✨ 返回结果]
     O --> Q
     P --> Q
-    
-    %% 数据准备子流程
-    subgraph DataPrep [📚 数据准备模块]
-        R[📁 加载Markdown文件<br/>config.data_path] --> S[🔧 元数据增强]
-        S --> T[✂️ 按标题分块]
-        T --> U[🏷️ 父子关系建立]
-        U --> CHUNKS[📦 输出文本块chunks]
-    end
-    
-    %% 索引构建子流程  
-    subgraph IndexBuild [🔍 索引构建模块]
-        CHUNKS --> V[🤖 BGE嵌入模型<br/>config.embedding_model]
-        V --> W[📊 FAISS向量索引]
-        W --> X[💾 索引持久化<br/>config.index_save_path]
-    end
-    
-    %% 配置管理子流程
-    subgraph ConfigMgmt [⚙️ 配置管理]
-        CFG1[🎛️ 默认配置<br/>DEFAULT_CONFIG]
-        CFG2[🔧 自定义配置<br/>RAGConfig]
-        CFG3[🌐 环境变量<br/>HF_ENDPOINT]
-    end
     
     %% 连接配置到各模块
     ConfigMgmt --> DataPrep
